@@ -26,6 +26,19 @@ def select_venue
   ven_names[venue_selection]
 end
 
+
+# returns categories from chosen venue (puts)
+
+category_selection = prompt.ask("Pick a category")#CHECK
+
+# returns attractions and location from chosen category (puts)
+
+
+date_search = prompt.ask("Enter date that you want to search yyyy-mm-dd") #check
+
+#displays attraction details
+
+
 binding.pry
 
 0
