@@ -33,7 +33,7 @@ end
 #selected_venue.show_attraction_types
 
 def select_attraction
-  #gets user input to select a type of event they would like to see
+  #gets user input to select the name of event they would like to see
   attr_names = Attraction.all
   attr_selection = $prompt.select("Which attraction would you like to look at?", per_page: 20) do |menu|
     menu.enum "."
@@ -42,6 +42,19 @@ def select_attraction
     end
   end
   attr_names[attr_selection]
+end
+
+def select_genre
+  #gets user input to select the type of event they are interested in
+  attr_names = Attraction.all
+  attr_selection = $prompt.select("Which type of event would you like to see?", per_page: 20) do |menu|
+    menu.enum "."
+    attr_names.each_with_index do |key,value|
+      menu.choice "#{key.attraction_primary_classification} - #{key.attraction_secondary_classification}", value
+    end
+  end
+  binding.pry
+  Attraction.all.select {|attr| "#{attr.attraction_primary_classification} - #{attr.attraction_secondary_classification}" == attr_selection}
 end
 
 def select_event
