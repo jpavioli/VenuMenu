@@ -23,7 +23,7 @@ end
 def get_state_data
   state_abreviations = ['AL','AK','AS','AZ','AR','CA','CO','CT','DE','DC','FM','FL','GA','GU','HI','ID','IL','IN','IA','KS','KY','LA','ME','MH','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','MP','OH','OK','OR','PW','PA','PR','RI','SC','SD','TN','TX','UT', 'VT','VI','VA','WA','WV','WI','WY']
   stateCode = 'XX'
-  puts "Greetings! What state are you in? (XX)"
+  puts "Greetings! Which state would you like to search? (XX)"
   until state_abreviations.include?(stateCode) do
     stateCode = gets.chomp
     if !state_abreviations.include?(stateCode)
@@ -108,6 +108,20 @@ def select_by_date(date_2 , date_3 = nil, date_1 = Time.now.to_s[0..9])
 end
 
 def display_table(array_of_event_objects)
+
+  if array_of_event_objects.length == 0
+    puts "-----+--------------------+-----"
+    puts "|      There are no events!    |"
+    puts "-----+--------------------+-----"
+    final_choice = $prompt.select("What would you like to do?", %w(search_again exit))
+      if final_choice == "search_again"
+        get_state_data
+      else
+        exit
+      end
+
+
+  else
   #takes an array of event objects and returns a formatted table of information
   puts "---+-----------------------------------------+------------+------------+-----------------------"
   puts "ID |Event Name                               | Event Date | Event Time | Tickets Still Available?         "
@@ -120,7 +134,8 @@ def display_table(array_of_event_objects)
     count += 1
   end
   puts "---+-----------------------------------------+------------+------------+-----------------------"
-  final_choice = $prompt.select("What would you like to do?", %w(buy_tickets new_search exit))
+
+  final_choice = $prompt.select("What would you like to do?", %w(buy_tickets search_again exit))
     if final_choice == "search_again"
       get_state_data
     elsif final_choice == "buy_tickets"
@@ -130,6 +145,7 @@ def display_table(array_of_event_objects)
     else
       exit
     end
+  end
 
 end
 
@@ -172,7 +188,7 @@ if choose == "attractions"
   specific_date = select_attraction
   a = specific_date.events
   display_table(a)
-elsif choose == "venue"
+elsif choose == "venues"
   venue = select_venue
   a = venue.events
   display_table(a)
