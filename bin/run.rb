@@ -87,15 +87,17 @@ end
 
 def display_table(array_of_event_objects)
   #takes an array of event objects and returns a formatted table of information
-  puts "-----------------------------------------+------------+------------+-----------------------"
-  puts "Event Name                               | Event Date | Event Time | CAN I GO?!?!?         "
-  puts "-----------------------------------------+------------+------------+-----------------------"
+  puts "---+-----------------------------------------+------------+------------+-----------------------"
+  puts "ID |Event Name                               | Event Date | Event Time | CAN I GO?!?!?         "
+  puts "---+-----------------------------------------+------------+------------+-----------------------"
+  count = 1
   array_of_event_objects.each do |event|
     e_name = event[:event_name].length > 35 ? event[:event_name].slice(0..34)+"...  " : event[:event_name].ljust(40, ' ')
     e_time = event[:event_time] == nil ? "        " : event[:event_time].slice(0..7)
-    puts "#{e_name} | #{event[:event_date]} |  #{e_time}  | Tickets are #{event[:event_ticket_status]}"
+    puts "#{count.to_s.ljust(3,' ')}|#{e_name} | #{event[:event_date]} |  #{e_time}  | Tickets are #{event[:event_ticket_status]}"
+    count += 1
   end
-  puts "-----------------------------------------+------------+------------+-----------------------"
+  puts "---+-----------------------------------------+------------+------------+-----------------------"
 end
 
 #read info from event
