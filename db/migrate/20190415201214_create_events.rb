@@ -7,6 +7,7 @@ class CreateEvents < ActiveRecord::Migration[5.0]
       t.string :event_date
       t.string :event_time
       t.string :event_ticket_status
+      t.string :event_url
       t.string :venue_id
       t.string :attraction_id
     end

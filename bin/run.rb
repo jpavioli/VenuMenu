@@ -88,7 +88,7 @@ end
 def display_table(array_of_event_objects)
   #takes an array of event objects and returns a formatted table of information
   puts "-----------------------------------------+------------+------------+-----------------------"
-  puts "Event Name                               | Event Date | Event Time | CAN I GO?!?!?"
+  puts "Event Name                               | Event Date | Event Time | CAN I GO?!?!?         "
   puts "-----------------------------------------+------------+------------+-----------------------"
   array_of_event_objects.each do |event|
     e_name = event[:event_name].length > 35 ? event[:event_name].slice(0..34)+"...  " : event[:event_name].ljust(40, ' ')

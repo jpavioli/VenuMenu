@@ -1,5 +1,6 @@
 require 'rest-client'
 require 'json'
+require 'pry'
 
 def get_ticketmaster_api_hash(stateCode)
   #make the web request / generate a request hash
@@ -46,6 +47,7 @@ def create_event_hash(web_hash)
       event_date: event["dates"]["start"]["localDate"],
       event_time: event["dates"]["start"]["localTime"],
       event_ticket_status: event["dates"]["status"]["code"],
+      event_url: event["url"],
       venue_id: event["_embedded"]["venues"][0]["id"],
       attraction_id: event["_embedded"]["attractions"][0]["id"]
     }
