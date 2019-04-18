@@ -1,6 +1,7 @@
 require_relative '../config/environment'
 require_relative '../db/seeds'
 
+
 $prompt = TTY::Prompt.new
 
 system "clear"
@@ -29,17 +30,22 @@ def get_state_data
       puts "Invalid Entry, try again!"
     end
   end
-  stateCode
+  populate_tables(stateCode)
 end
 
 #populate venues
+
 title_block
-stateCode = get_state_data
+
+def populate_tables(state_info)
+stateCode = state_info
 populate_venues(create_venue_hash(get_ticketmaster_api_hash(stateCode)))
 populate_attractions(create_attraction_hash(get_ticketmaster_api_hash(stateCode)))
 populate_events(create_event_hash(get_ticketmaster_api_hash(stateCode)))
 
 system "clear"
+choose_search
+end
 
 def select_venue(array_of_objects = Venue.all)
   #gets user input to select a venue and returns the
@@ -79,16 +85,32 @@ def select_event
   events_names[event_selection]
 end
 
+def date_option
+  date_choose = $prompt.select("How would you like to search by date?", %w(happening_today specific_date before_a_date go_back))  
+   if date_choose == "happening_today"
+    select_by_date(Time.now.to_s[0..9])
+   elsif date_choose == "specific_date"
+    entered_date = $prompt.ask("Please enter a date to search? YYYY-MM-DD:")
+    select_by_date(entered_date)
+   elsif date_choose == "go_back"
+    choose_search
+   elsif
+    entered_date = $prompt.ask("Before which date? YYYY-MM-DD:")
+    select_by_date("",entered_date)
+   end
+end
+
 def select_by_date(date_2 , date_3 = nil, date_1 = Time.now.to_s[0..9])
   #returns all events meeting the date criteria collected
   #date_1 = after or including this date, date_2 = on this date, date_3 = before this date
-  Event.all.select {|event| date_3 != nil && (event.event_date.to_date >= date_1.to_date && event.event_date.to_date <= date_3.to_date) || (event.event_date == date_2)}
+  target_date_events = Event.all.select {|event| date_3 != nil && (event.event_date.to_date >= date_1.to_date && event.event_date.to_date <= date_3.to_date) || (event.event_date == date_2)}
+  display_table(target_date_events)
 end
 
 def display_table(array_of_event_objects)
   #takes an array of event objects and returns a formatted table of information
   puts "---+-----------------------------------------+------------+------------+-----------------------"
-  puts "ID |Event Name                               | Event Date | Event Time | CAN I GO?!?!?         "
+  puts "ID |Event Name                               | Event Date | Event Time | Tickets Still Available?         "
   puts "---+-----------------------------------------+------------+------------+-----------------------"
   count = 1
   array_of_event_objects.each do |event|
@@ -98,12 +120,73 @@ def display_table(array_of_event_objects)
     count += 1
   end
   puts "---+-----------------------------------------+------------+------------+-----------------------"
+  final_choice = $prompt.select("What would you like to do?", %w(buy_tickets new_search exit))
+    if final_choice == "search_again"
+      get_state_data
+    elsif final_choice == "buy_tickets"
+      ticket_choice_number = ticket_choice(array_of_event_objects)
+     
+
+    else
+      exit
+    end
+
 end
+
+def ticket_choice(array)
+  ticket_id = $prompt.ask("Please enter a number from the choices above:", convert: :int)
+  system("open","#{array[ticket_id - 1].event_url}")
+  final_choice = $prompt.select("What would you like to do?", %w(new_search exit))
+  if final_choice == "new_search"
+    get_state_data
+  else
+    exit
+  end
+
+#array_of[id-1].event_url
+end
+
+
+
 
 #read info from event
 
-binding.pry
+#-----------------------------------------------
+specific_date = ""
+venue = ""
+event = ""
+choose2 = ""
 
-0
+#.event_url from event hashes gives u url
 
-puts "HELLO WORLD"
+
+
+def choose_search
+choose = $prompt.select("How would you like to search?", %w(attractions venues date_search see_all_events go_back))
+menu(choose)
+end
+
+
+def menu(choose)
+if choose == "attractions"
+  specific_date = select_attraction
+  a = specific_date.events
+  display_table(a)
+elsif choose == "venue"
+  venue = select_venue
+  a = venue.events
+  display_table(a)
+elsif choose == "see_all_events"
+  event = Event.all
+  display_table(event)
+elsif choose == "date_search"
+  date_option
+else
+  get_state_data
+
+end
+end
+
+
+
+get_state_data
