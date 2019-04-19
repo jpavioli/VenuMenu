@@ -1,4 +1,5 @@
 WELCOME TO...
+```
 ____   ____                     _____
 \   \ /   /____   ____  __ __  /     \   ____   ____  __ __
 \   Y   // __ \ /    \|  |  \/  \ /  \_/ __ \ /    \|  |  \
@@ -6,7 +7,7 @@ ____   ____                     _____
   \___/  \___  >___|  /____/\____|__  /\___  >___|  /____/
              \/     \/              \/     \/     \/
                                          BY: JUSTIN and MINH
-
+```
 Welcome to the "Venue Menu" CLI application! The command line interface to help
 you find an event near you!
 
