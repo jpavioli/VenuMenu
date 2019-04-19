@@ -1,59 +1,53 @@
-# Module One Final Project Guidelines
+WELCOME TO...
+____   ____                     _____
+\   \ /   /____   ____  __ __  /     \   ____   ____  __ __
+\   Y   // __ \ /    \|  |  \/  \ /  \_/ __ \ /    \|  |  \
+ \     /\  ___/|   |  \  |  /    Y    \  ___/|   |  \  |  /
+  \___/  \___  >___|  /____/\____|__  /\___  >___|  /____/
+             \/     \/              \/     \/     \/
+                                         BY: JUSTIN and MINH
 
-Congratulations, you're at the end of module one! You've worked crazy hard to get here and have learned a ton.
+Welcome to the "Venue Menu" CLI application! The command line interface to help
+you find an event near you!
 
-For your final project, we'll be building a Command Line database application.
-
-## Project Requirements
-
-### Option One - Data Analytics Project
-
-1. Access a Sqlite3 Database using ActiveRecord.
-2. You should have at minimum three models including one join model. This means you must have a many-to-many relationship.
-3. You should seed your database using data that you collect either from a CSV, a website by scraping, or an API.
-4. Your models should have methods that answer interesting questions about the data. For example, if you've collected info about movie reviews, what is the most popular movie? What movie has the most reviews?
-5. You should provide a CLI to display the return values of your interesting methods.  
-6. Use good OO design patterns. You should have separate classes for your models and CLI interface.
-
-  **Resource:** [Easy Access APIs](https://github.com/learn-co-curriculum/easy-access-apis)
-
-### Option Two - Command Line CRUD App
-
-1. Access a Sqlite3 Database using ActiveRecord.
-2. You should have a minimum of three models.
-3. You should build out a CLI to give your user full CRUD ability for at least one of your resources. For example, build out a command line To-Do list. A user should be able to create a new to-do, see all todos, update a todo item, and delete a todo. Todos can be grouped into categories, so that a to-do has many categories and categories have many to-dos.
-4. Use good OO design patterns. You should have separate models for your runner and CLI interface.
-
-### Brainstorming and Proposing a Project Idea
-
-Projects need to be approved prior to launching into them, so take some time to brainstorm project options that will fulfill the requirements above.  You must have a minimum of four [user stories](https://en.wikipedia.org/wiki/User_story) to help explain how a user will interact with your app.  A user story should follow the general structure of `"As a <role>, I want <goal/desire> so that <benefit>"`. In example, if we were creating an app to randomly choose nearby restaurants on Yelp, we might write:
-
-* As a user, I want to be able to enter my name to retrieve my records
-* As a user, I want to enter a location and be given a random nearby restaurant suggestion
-* As a user, I should be able to reject a suggestion and not see that restaurant suggestion again
-* As a user, I want to be able to save to and retrieve a list of favorite restaurant suggestions
-
-## Instructions
-
-1. Fork and clone this repository.
-2. Build your application. Make sure to commit early and commit often. Commit messages should be meaningful (clearly describe what you're doing in the commit) and accurate (there should be nothing in the commit that doesn't match the description in the commit message). Good rule of thumb is to commit every 3-7 mins of actual coding time. Most of your commits should have under 15 lines of code and a 2 line commit is perfectly acceptable.
-3. Make sure to create a good README.md with a short description, install instructions, a contributors guide and a link to the license for your code.
-4. Make sure your project checks off each of the above requirements.
-5. Prepare a video demo (narration helps!) describing how a user would interact with your working project.
-    * The video should:
-      - Have an overview of your project.(2 minutes max)
-6. Prepare a presentation to follow your video.(3 minutes max)
-    * Your presentation should:
-      - Describe something you struggled to build, and show us how you ultimately implemented it in your code.
-      - Discuss 3 things you learned in the process of working on this project.
-      - Address, if anything, what you would change or add to what you have today?
-      - Present any code you would like to highlight.   
-7. *OPTIONAL, BUT RECOMMENDED*: Write a blog post about the project and process.
-
----
-### Common Questions:
-- How do I turn off my SQL logger?
-```ruby
-# in config/environment.rb add this line:
-ActiveRecord::Base.logger = nil
+Before running the application, it is necessary to first create a local database
+using a predefined migration. To do this execute the following in the command
+line:
 ```
+   rake db:migrate
+```
+Once complete, you can run the application by executing
+```
+   ruby bin/run.rb
+```
+This will start the execution of the program.
+
+The user will fist start by entering the State Code (XX) for the state that they
+are currently located in. From there, the databases will populate with
+information relevant to the state.
+
+The user can then navigate the through the various menus by selecting the options
+that match the  desired search criteria.
+
+A full flow of the program is shown below:
+ -Welcome
+ -Select a State
+ --Attractions
+ ---Events
+ --Venues
+ ---Events
+ --Date Search
+ ---Today
+ ---On a Specific Day
+ ---Before a Specific Day
+
+All outcomes result in an Event Summary Table, displaying the refined results
+that meet the user's desired search results. Once at this point, the user has
+the option to go directly to the the event ticket page, to fully enjoy the
+event!
+
+When input is requested, the format needed is indicated. If input is incorrect,
+an error message will be displayed, and the user allowed to re-enter information.
+
+We hope you enjoy the application; further, we hope that you make lasting
+memories at your next event!
